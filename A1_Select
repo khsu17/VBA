@@ -3,6 +3,7 @@ Option Explicit
 Sub A1_Select()
 
     Dim ws As Worksheet
+'    Application.DisplayAlerts = False
     
     For Each ws In ActiveWorkbook.Worksheets
         ws.Select
@@ -10,7 +11,8 @@ Sub A1_Select()
         ActiveWindow.ScrollRow = 1
         ActiveWindow.ScrollColumn = 1
     Next
-
     Worksheets(1).Select
+
+'    Application.DisplayAlerts = True
     
 End Sub
