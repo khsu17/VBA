@@ -1,12 +1,9 @@
-1. 1.Test
-*1. *1.TEST
-**1. **1.TEST
-- -Test
-1. 1.Test
-=========
-*1. *1.TEST
-===========
-**1. **1.TEST
-=============
-- -Test
-=======
+1. Test
+*1. Test
+**1. Test
+- Test
+1. Test
+========
+* Test
+** Test
+
