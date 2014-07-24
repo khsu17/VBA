@@ -1,1 +1,59 @@
-create
+Option Explicit
+Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" ( _
+ByVal hwnd As Long, _
+ByVal lpOperation As String, _
+ByVal lpFile As String, _
+ByVal lpParameters As String, _
+ByVal lpDirectory As String, _
+ByVal nShowCmd As Long) As Long
+ 
+Public Function PrintThisDoc(formname As Long, FileName As String)
+On Error Resume Next
+Dim X As Long
+X = ShellExecute(formname, "Print", FileName, 0&, 0&, 3)
+End Function
+ 
+Sub PDF_Print()
+
+    Dim FileAddress As String, FileName As String, SpiltName  As Variant
+
+    Dim printThis
+    Dim strDir As String
+    Dim strFile As String
+     
+    'Select the Folder.
+    FileAddress = Folder_Selection() & "\"
+    If FileAddress = "\" Then Exit Sub          'Exit if no selected folder
+    
+    'Return the first file.
+    FileName = Dir(FileAddress & "*.pdf")
+    'SpiltName = Split(FileName, ".")           'Spilt the character
+    
+    Do
+        If FileName <> "" Then                  '"" means no file
+            
+            printThis = PrintThisDoc(0, FileAddress & FileName)         'Execute printing
+            Application.Wait (Now + #12:00:20 AM#)                      'Setting the time-gap
+            
+            FileName = Dir()                    'Select the next file
+            'SpiltName = Split(FileName, ".")   'Spilt the character
+        End If
+    Loop While FileName <> ""                   'Loop
+
+
+End Sub
+
+Function Folder_Selection() As String
+
+    Dim FolderName As String
+    With Application.FileDialog(msoFileDialogFolderPicker)
+      .AllowMultiSelect = False
+      .Show
+      On Error Resume Next
+      FolderName = .SelectedItems(1)
+      Folder_Selection = FolderName
+      Err.Clear
+      On Error GoTo 0
+    End With
+    
+End Function
