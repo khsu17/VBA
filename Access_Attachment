@@ -1,0 +1,46 @@
+Option Compare Database
+
+Sub Add_Attachment()
+
+    Set rsTreatyList = CurrentDb.OpenRecordset("Treaty_List")               'Parent recordset
+
+    With rsTreatyList
+        .MoveFirst
+        Do Until .EOF
+
+            .Edit                                                           'Active edit mode
+            Set rsAttachments = rsTreatyList.Fields("Attachments").Value    'Child recordset
+
+            'Add a new attachment
+            rsAttachments.AddNew
+            rsAttachments.Fields("FileData").LoadFromFile "D:\Treaty_List\SCAN_20140801\" & .Fields("특약코드") & "_" & .Fields("재보험사코드") & "_" & .Fields("계약서구분") & ".PDF"
+            rsAttachments.Update
+
+            'Update the parent records
+            rsTreatyList.Update
+
+            .MoveNext
+
+        Loop
+    End With
+
+End Sub
+
+
+Sub Save_Attachment()
+   
+    Set rsTreatyList = CurrentDb.OpenRecordset("테이블또는쿼리명")               'Parent recordset
+    
+    With rsTreatyList
+        .MoveFirst
+        Do Until .EOF
+        
+            Set rsAttachments = rsTreatyList.Fields("Attachments").Value    'Child recordset
+            rsAttachments.Fields("FileData").SaveToFile "D:\Treaty_List\Test"
+            
+            .MoveNext
+            
+        Loop
+    End With
+
+End Sub
